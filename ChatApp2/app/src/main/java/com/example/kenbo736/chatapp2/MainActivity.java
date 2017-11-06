@@ -21,6 +21,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.Console;
 
@@ -90,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     android.support.v4.app.NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(MainActivity.this)
-                                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_light)
+                                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
                                     .setContentTitle("Registration")
                                     .setContentText("You are now registered under the email: " + email);
                     nManager.notify(1, mBuilder.build());
