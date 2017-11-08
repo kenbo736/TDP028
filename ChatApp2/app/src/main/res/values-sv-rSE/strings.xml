@@ -7,4 +7,7 @@
     <string name="sign_out">Logga ut</string>
     <string name="send">Skicka</string>
     <string name="write_something">Skriv något</string>
+    <string name="username">Användarnamn</string>
+    <string name="set_username">Sätt användarnamn</string>
+    <string name="change_username">Ändra användarnamn</string>
 </resources>

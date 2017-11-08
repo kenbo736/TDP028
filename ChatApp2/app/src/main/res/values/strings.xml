@@ -7,4 +7,7 @@
     <string name="sign_out">Sign out</string>
     <string name="send">Send</string>
     <string name="write_something">Write something</string>
+    <string name="username">username</string>
+    <string name="set_username">set username</string>
+    <string name="change_username">change username</string>
 </resources>

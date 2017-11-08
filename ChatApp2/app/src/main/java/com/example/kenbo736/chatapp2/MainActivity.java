@@ -33,9 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
     private NotificationManager nManager;
-    private NotificationCompat.Builder mBuilder;
 
     private EditText emailField;
     private EditText passwordField;
@@ -80,9 +78,7 @@ public class MainActivity extends AppCompatActivity {
         registerButton.setText(R.string.register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
                 startRegister();
-
             }
         });
 
@@ -102,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                     .setContentTitle("Registration")
                                     .setContentText("You are now registered under the email: " + email);
                     nManager.notify(1, mBuilder.build());
+                    startActivity(new Intent(MainActivity.this, profileActivity.class));
                 }
                 else{
 
@@ -109,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void startSignIn() {

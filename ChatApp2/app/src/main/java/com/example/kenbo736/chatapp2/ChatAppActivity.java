@@ -17,12 +17,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 public class ChatAppActivity extends AppCompatActivity {
 
     private EditText messageBox;
     private TextView chatWindow;
     private Button sendButton;
     private Button signoutButton;
+    private Button changeUsernameButton;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference dataRef;
@@ -43,10 +48,24 @@ public class ChatAppActivity extends AppCompatActivity {
         dataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                chatWindow.setText(snapshot.getValue().toString());
+                chatWindow.setText("");
+                for(Iterator<DataSnapshot> i = snapshot.getChildren().iterator(); i.hasNext();){
+                    DataSnapshot post = i.next();
+                    String user = post.child("user").getValue().toString();
+                    String message = post.child("message").getValue().toString();
+                    chatWindow.append(user + ": " + message + "\n");
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        changeUsernameButton = (Button) findViewById(R.id.changeUsernameButton);
+        changeUsernameButton.setText(R.string.change_username);
+        changeUsernameButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(ChatAppActivity.this, profileActivity.class));
             }
         });
 
@@ -54,10 +73,20 @@ public class ChatAppActivity extends AppCompatActivity {
         sendButton.setText(R.string.send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String key = dataRef.push().getKey();
                 String message = messageBox.getText().toString();
+                String user = mAuth.getCurrentUser().getDisplayName();
+                Map<String, String> map = new HashMap<>();
+                map.put("user", user);
+                map.put("message", message);
+
+                dataRef.child(key).setValue(map);
+                messageBox.setText("");
+
+                /*
                 chatWindow.append("\n" + mAuth.getCurrentUser().getEmail() + ": " + message);
                 dataRef.setValue(chatWindow.getText().toString());
-                messageBox.setText("");
+                */
 
             }
         });
