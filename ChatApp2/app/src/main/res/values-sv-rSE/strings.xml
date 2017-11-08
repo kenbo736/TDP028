@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Tjat App2</string>
+    <string name="log_in">Logga in</string>
+    <string name="register">Registrera</string>
+    <string name="mail">I-mejl</string>
+    <string name="password">Lösenord</string>
+    <string name="sign_out">Logga ut</string>
+    <string name="send">Skicka</string>
+    <string name="write_something">Skriv något</string>
+</resources>

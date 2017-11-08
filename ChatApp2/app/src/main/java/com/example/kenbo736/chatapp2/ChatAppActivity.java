@@ -37,6 +37,7 @@ public class ChatAppActivity extends AppCompatActivity {
         dataRef = database.getReference("chatWindow");
 
         messageBox = (EditText) findViewById(R.id.messageBox);
+        messageBox.setHint(R.string.write_something);
         chatWindow = (TextView) findViewById(R.id.chatWindow);
 
         dataRef.addValueEventListener(new ValueEventListener() {
@@ -50,16 +51,18 @@ public class ChatAppActivity extends AppCompatActivity {
         });
 
         sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setText(R.string.send);
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String message = messageBox.getText().toString();
                 chatWindow.append("\n" + mAuth.getCurrentUser().getEmail() + ": " + message);
-
                 dataRef.setValue(chatWindow.getText().toString());
+                messageBox.setText("");
 
             }
         });
         signoutButton = (Button) findViewById(R.id.signoutButton);
+        signoutButton.setText(R.string.sign_out);
         signoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mAuth.signOut();

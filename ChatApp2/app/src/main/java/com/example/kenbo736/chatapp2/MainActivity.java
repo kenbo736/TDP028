@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         emailField = (EditText) findViewById(R.id.emailField);
+        emailField.setHint(R.string.mail);
         passwordField = (EditText) findViewById(R.id.passwordField);
+        passwordField.setHint(R.string.password);
         nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         signInButton = (Button) findViewById(R.id.signInButton);
+        signInButton.setText(R.string.log_in);
         signInButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         registerButton = (Button) findViewById(R.id.registerButton);
+        registerButton.setText(R.string.register);
         registerButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
