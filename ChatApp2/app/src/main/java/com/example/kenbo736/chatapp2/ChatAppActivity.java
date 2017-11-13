@@ -3,6 +3,7 @@ package com.example.kenbo736.chatapp2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ public class ChatAppActivity extends AppCompatActivity {
         messageBox = (EditText) findViewById(R.id.messageBox);
         messageBox.setHint(R.string.write_something);
         chatWindow = (TextView) findViewById(R.id.chatWindow);
+        chatWindow.setMovementMethod(new ScrollingMovementMethod());
 
         dataRef.addValueEventListener(new ValueEventListener() {
             @Override

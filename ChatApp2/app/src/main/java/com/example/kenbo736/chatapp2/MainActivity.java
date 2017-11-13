@@ -25,6 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.io.Console;
 
@@ -34,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private NotificationManager nManager;
+    private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
     private EditText emailField;
     private EditText passwordField;
+    private TextView welcomeMessage;
 
     private Button signInButton;
     private Button registerButton;
@@ -47,11 +50,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mAuth = FirebaseAuth.getInstance();
+
+        welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         emailField = (EditText) findViewById(R.id.emailField);
         emailField.setHint(R.string.mail);
         passwordField = (EditText) findViewById(R.id.passwordField);
         passwordField.setHint(R.string.password);
+
         nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -82,11 +89,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        long cacheExpiration = 3600;
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            mFirebaseRemoteConfig.activateFetched();
+                        }
+                        welcomeMessage.setText(mFirebaseRemoteConfig.getString("WELCOME_MESSAGE"));
+                    }
+                });
+
 
     }
     private void startRegister() {
         final String email = emailField.getText().toString();
         final String password = passwordField.getText().toString();
+
+        if (email.isEmpty()){
+            Toast.makeText(MainActivity.this, "email is missing", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
