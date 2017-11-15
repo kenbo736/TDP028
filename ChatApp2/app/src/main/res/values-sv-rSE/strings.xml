@@ -9,5 +9,9 @@
     <string name="write_something">Skriv något</string>
     <string name="username">Användarnamn</string>
     <string name="set_username">Sätt användarnamn</string>
-    <string name="change_username">Ändra användarnamn</string>
+    <string name="change_username">Sätt namn</string>
+    <string name="send_spam">skicka spam</string>
+    <string name="invitation_title">Du har fått spam</string>
+    <string name="invitation_message">Någon har bjudit in dig till Tjat App2</string>
+    <string name="invitation_cta">Pröva ny fantastisk Tjat App2</string>
 </resources>
