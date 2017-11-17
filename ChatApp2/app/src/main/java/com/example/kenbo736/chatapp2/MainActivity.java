@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mGeofencingClient = LocationServices.getGeofencingClient(this);
-        Geofence mGeofence;
 
         welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         emailField = (EditText) findViewById(R.id.emailField);
@@ -106,20 +106,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        mGeofence = new Geofence.Builder()
-                // Set the request ID of the geofence. This is a string to identify this
-                // geofence.
-                .setRequestId(entry.getKey())
-
-                .setCircularRegion(
-                        entry.getValue().latitude,
-                        entry.getValue().longitude,
-                        GEOFENCE_RADIUS_IN_METERS
-                )
-                .setExpirationDuration(GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                        Geofence.GEOFENCE_TRANSITION_EXIT)
+        Geofence geofence = new Geofence.Builder()
+                .setRequestId("Linköping") // Geofence ID
+                .setCircularRegion( 58.410807, 15.621373, 5000) // defining fence region
+                .setExpirationDuration( 10000 ) // expiring date
+                // Transition types that it should look for
+                .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT )
                 .build();
+
+        GeofencingRequest geoRequest = new GeofencingRequest.Builder()
+                // Notification to trigger when the Geofence is created
+                .setInitialTrigger( GeofencingRequest.INITIAL_TRIGGER_ENTER )
+                .addGeofence( geofence ) // add a Geofence
+                .build();
+
+
 
     }
     private void startRegister() {
