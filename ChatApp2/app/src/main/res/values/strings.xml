@@ -13,5 +13,4 @@
     <string name="send_spam">send spam</string>
     <string name="invitation_title">Spam message received</string>
     <string name="invitation_message">Someone has invited you to Chatapp2</string>
-    <string name="invitation_cta">Try new exciting Chatapp2</string>
 </resources>

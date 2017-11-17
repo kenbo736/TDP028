@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private NotificationManager nManager;
     private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    private GeofencingClient mGeofencingClient;
 
     private EditText emailField;
     private EditText passwordField;
@@ -44,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
     private Button signInButton;
     private Button registerButton;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         mAuth = FirebaseAuth.getInstance();
+        mGeofencingClient = LocationServices.getGeofencingClient(this);
+        Geofence mGeofence;
 
         welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         emailField = (EditText) findViewById(R.id.emailField);
@@ -101,6 +106,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        mGeofence = new Geofence.Builder()
+                // Set the request ID of the geofence. This is a string to identify this
+                // geofence.
+                .setRequestId(entry.getKey())
+
+                .setCircularRegion(
+                        entry.getValue().latitude,
+                        entry.getValue().longitude,
+                        GEOFENCE_RADIUS_IN_METERS
+                )
+                .setExpirationDuration(GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                        Geofence.GEOFENCE_TRANSITION_EXIT)
+                .build();
 
     }
     private void startRegister() {

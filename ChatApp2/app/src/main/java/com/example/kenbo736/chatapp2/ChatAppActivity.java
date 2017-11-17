@@ -36,6 +36,8 @@ public class ChatAppActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference dataRef;
 
+    private static final int REQUEST_CODE=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +82,9 @@ public class ChatAppActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                         .setMessage(getString(R.string.invitation_message))
-                        .setDeepLink(Uri.parse("http://google.com"))
-                        .setCustomImage(Uri.parse("https://images-eds-ssl.xboxlive.com/image?url=8Oaj9Ryq1G1_p3lLnXlsaZgGzAie6Mnu24_PawYuDYIoH77pJ.X5Z.MqQPibUVTcAL_uXqNGDhlNIt0wsKBphnYi_G_lNgvWGjm1ZpEzt6T1OHWICnMjSbCLMVj.H5bGPhbofTc8000L_kG4cpIZtcLKYcKE9zco58YzufwifoFFPTqhAOxbFF1Mql6iZU1_d_FjrtR8s22JwBM3LkNpvdVFM_gV8XN1OLcbKQZGBvQ-&w=200&h=300&format=jpg"))
-                        .setCallToActionText(getString(R.string.invitation_cta))
+                        .setCustomImage(Uri.parse("https://thumb9.shutterstock.com/display_pic_with_logo/172762/613248632/stock-photo-escape-from-crisis-613248632.jpg"))
                         .build();
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -118,7 +118,7 @@ public class ChatAppActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 100) {
+        if (requestCode == REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 // Get the invitation IDs of all sent messages
                 String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);

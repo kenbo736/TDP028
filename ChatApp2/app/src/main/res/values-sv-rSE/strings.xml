@@ -13,5 +13,4 @@
     <string name="send_spam">skicka spam</string>
     <string name="invitation_title">Du har fått spam</string>
     <string name="invitation_message">Någon har bjudit in dig till Tjat App2</string>
-    <string name="invitation_cta">Pröva ny fantastisk Tjat App2</string>
 </resources>
