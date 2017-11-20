@@ -1,11 +1,14 @@
 package com.example.kenbo736.chatapp2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +39,7 @@ public class ChatAppActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference dataRef;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     private static final int REQUEST_CODE=0;
 
@@ -46,11 +51,14 @@ public class ChatAppActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         dataRef = database.getReference("chatWindow");
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         messageBox = (EditText) findViewById(R.id.messageBox);
         messageBox.setHint(R.string.write_something);
         chatWindow = (TextView) findViewById(R.id.chatWindow);
         chatWindow.setMovementMethod(new ScrollingMovementMethod());
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         dataRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -72,6 +80,11 @@ public class ChatAppActivity extends AppCompatActivity {
         changeUsernameButton.setText(R.string.change_username);
         changeUsernameButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
+                bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "username_changed");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
+
                 startActivity(new Intent(ChatAppActivity.this, profileActivity.class));
             }
         });
@@ -80,6 +93,11 @@ public class ChatAppActivity extends AppCompatActivity {
         sendSpamButton.setText(R.string.send_spam);
         sendSpamButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
+                bundle.putString(FirebaseAnalytics.Param.VALUE, "a lot");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
+
                 Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                         .setMessage(getString(R.string.invitation_message))
                         .setCustomImage(Uri.parse("https://thumb9.shutterstock.com/display_pic_with_logo/172762/613248632/stock-photo-escape-from-crisis-613248632.jpg"))
@@ -99,8 +117,18 @@ public class ChatAppActivity extends AppCompatActivity {
                 map.put("user", user);
                 map.put("message", message);
 
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CHARACTER, user);
+                bundle.putString(FirebaseAnalytics.Param.CONTENT, message);
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.EARN_VIRTUAL_CURRENCY, bundle);
+
                 dataRef.child(key).setValue(map);
                 messageBox.setText("");
+                View view = ChatAppActivity.this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
 
             }
         });
@@ -130,5 +158,10 @@ public class ChatAppActivity extends AppCompatActivity {
                 // ...
             }
         }
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
     }
 }

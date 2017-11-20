@@ -13,6 +13,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="56dp"
+        android:gravity="bottom"
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbars="vertical"
         app:layout_constraintHorizontal_bias="0.529"

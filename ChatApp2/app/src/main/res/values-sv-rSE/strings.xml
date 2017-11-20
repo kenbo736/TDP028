@@ -13,4 +13,6 @@
     <string name="send_spam">skicka spam</string>
     <string name="invitation_title">Du har fått spam</string>
     <string name="invitation_message">Någon har bjudit in dig till Tjat App2</string>
+    <string name="you_are_in">Du är i</string>
+    <string name="you_are_not_in">Du är inte i</string>
 </resources>
