@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Tjat App2</string>
+    <string name="app_name">rantNation</string>
     <string name="log_in">Logga in</string>
     <string name="register">Registrera</string>
     <string name="mail">I-mejl</string>
     <string name="password">Lösenord</string>
-    <string name="sign_out">Logga ut</string>
+    <string name="sign_out">Log ut</string>
     <string name="send">Skicka</string>
     <string name="write_something">Skriv något</string>
     <string name="username">Användarnamn</string>

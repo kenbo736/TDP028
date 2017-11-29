@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
@@ -58,7 +59,12 @@ public class ChatAppActivity extends AppCompatActivity {
         chatWindow = (TextView) findViewById(R.id.chatWindow);
         chatWindow.setMovementMethod(new ScrollingMovementMethod());
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("RantNation");
+        toolbar.setNavigationIcon(R.mipmap.rn_launcher);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         dataRef.addValueEventListener(new ValueEventListener() {
             @Override

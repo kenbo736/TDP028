@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ChatApp2</string>
+    <string name="app_name">rantNation</string>
     <string name="log_in">Sign in</string>
     <string name="register">Register</string>
     <string name="mail">email</string>

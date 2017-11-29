@@ -12,6 +12,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -86,6 +87,11 @@ public class MainActivity extends AppCompatActivity implements
         emailField.setHint(R.string.mail);
         passwordField = (EditText) findViewById(R.id.passwordField);
         passwordField.setHint(R.string.password);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("RantNation");
+        toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
         nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -176,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (task.isSuccessful()) {
                     android.support.v4.app.NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(MainActivity.this)
-                                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark_normal)
+                                    .setSmallIcon(R.mipmap.rn_launcher)
                                     .setContentTitle("Registration")
                                     .setContentText("You are now registered under the email: " + email);
                     nManager.notify(1, mBuilder.build());
