@@ -61,6 +61,7 @@ public class profileActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(profileActivity.this, ChatAppActivity.class));
+                            Toast.makeText(profileActivity.this, mAuth.getCurrentUser().getDisplayName(), Toast.LENGTH_SHORT).show();
                         }
                         else{
                             Toast.makeText(profileActivity.this, "set username failed", Toast.LENGTH_SHORT).show();

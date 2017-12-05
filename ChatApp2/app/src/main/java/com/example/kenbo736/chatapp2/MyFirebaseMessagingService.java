@@ -52,8 +52,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         NotificationCompat.Builder notifiBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("Testing att spove funkar")
+                .setSmallIcon(R.mipmap.rn_launcher)
+                .setContentTitle("Testing att kenta funkar")
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setContentIntent(pendingIntent);

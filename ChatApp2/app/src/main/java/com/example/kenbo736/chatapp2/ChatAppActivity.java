@@ -10,8 +10,10 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -32,7 +35,7 @@ import java.util.Map;
 public class ChatAppActivity extends AppCompatActivity {
 
     private EditText messageBox;
-    private TextView chatWindow;
+    private ListView chatWindow;
     private Button sendButton;
     private Button signoutButton;
     private Button changeUsernameButton;
@@ -56,26 +59,33 @@ public class ChatAppActivity extends AppCompatActivity {
 
         messageBox = (EditText) findViewById(R.id.messageBox);
         messageBox.setHint(R.string.write_something);
-        chatWindow = (TextView) findViewById(R.id.chatWindow);
-        chatWindow.setMovementMethod(new ScrollingMovementMethod());
+        chatWindow = (ListView) findViewById(R.id.chatWindow);
+        //chatWindow.setMovementMethod(new ScrollingMovementMethod());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("RantNation");
+        getSupportActionBar().setTitle("rantNation");
         toolbar.setNavigationIcon(R.mipmap.rn_launcher);
+
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         dataRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                chatWindow.setText("");
+                ArrayList<String> messages = new ArrayList<String>();
+                //chatWindow.setText("");
                 for(Iterator<DataSnapshot> i = snapshot.getChildren().iterator(); i.hasNext();){
                     DataSnapshot post = i.next();
                     String user = post.child("user").getValue().toString();
                     String message = post.child("message").getValue().toString();
-                    chatWindow.append(user + ": " + message + "\n");
+
+                    messages.add(user + ":\n" + message);
+                    //chatWindow.append(user + ": " + message + "\n");
                 }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(ChatAppActivity.this, R.layout.chatbubble_layout, messages);
+                chatWindow.setAdapter(adapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -106,7 +116,7 @@ public class ChatAppActivity extends AppCompatActivity {
 
                 Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
                         .setMessage(getString(R.string.invitation_message))
-                        .setCustomImage(Uri.parse("https://thumb9.shutterstock.com/display_pic_with_logo/172762/613248632/stock-photo-escape-from-crisis-613248632.jpg"))
+                        .setCustomImage(Uri.parse("https://raw.githubusercontent.com/kenbo736/TDP028/master/Images/rn_icon.png"))
                         .build();
                 startActivityForResult(intent, REQUEST_CODE);
             }
@@ -122,6 +132,7 @@ public class ChatAppActivity extends AppCompatActivity {
                 Map<String, String> map = new HashMap<>();
                 map.put("user", user);
                 map.put("message", message);
+                //map.put("timestamp", message);
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.CHARACTER, user);
@@ -157,7 +168,7 @@ public class ChatAppActivity extends AppCompatActivity {
                 // Get the invitation IDs of all sent messages
                 String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
                 for (String id : ids) {
-                    Toast.makeText(ChatAppActivity.this, id, Toast.LENGTH_SHORT).show();
+
                 }
             } else {
                 // Sending failed or it was canceled, show failure message to the user
