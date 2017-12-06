@@ -44,8 +44,8 @@ public class profileActivity extends AppCompatActivity {
         });
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("RantNation");
-        toolbar.setNavigationIcon(R.mipmap.rn_launcher);
+        getSupportActionBar().setTitle("");
+        //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
     }
 

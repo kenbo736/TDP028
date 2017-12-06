@@ -90,8 +90,8 @@ public class MainActivity extends AppCompatActivity implements
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("RantNation");
-        toolbar.setNavigationIcon(R.mipmap.rn_launcher);
+        getSupportActionBar().setTitle("");
+        //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
         nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 

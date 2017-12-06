@@ -64,8 +64,8 @@ public class ChatAppActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("rantNation");
-        toolbar.setNavigationIcon(R.mipmap.rn_launcher);
+        getSupportActionBar().setTitle("");
+        //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
