@@ -10,9 +10,9 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -22,34 +22,19 @@
             android:layout_gravity="center"
             android:text="@string/app_name" />-->
 
-        <ImageView android:id="@+id/image_view"
+        <ImageView
+            android:id="@+id/image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:maxWidth="400dp"
-            android:maxHeight="42dp"
-            android:scaleType="fitCenter"
             android:layout_marginLeft="3dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="42dp"
+            android:maxWidth="400dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/rn_icon_name" />
 
     </android.support.v7.widget.Toolbar>
-
-    <ListView
-        android:id="@+id/chatWindow"
-        android:layout_width="330dp"
-        android:layout_height="350dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="bottom"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        app:layout_constraintBottom_toTopOf="@+id/sendSpamButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/sendButton"
@@ -76,34 +61,20 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/sendButton" />
 
-    <Button
-        android:id="@+id/signoutButton"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="68dp"
-        android:layout_marginStart="16dp"
-        android:text="sign out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/changeUsernameButton"
-        android:layout_width="164dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="68dp"
-        android:layout_marginEnd="16dp"
-        android:text="change username"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/sendSpamButton"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="108dp"
-        android:layout_marginStart="16dp"
-        android:text="Send Spam"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <ListView
+        android:id="@+id/chatWindow"
+        android:layout_width="330dp"
+        android:layout_height="428dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="bottom"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
+        app:layout_constraintBottom_toTopOf="@+id/messageBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
 </android.support.constraint.ConstraintLayout>

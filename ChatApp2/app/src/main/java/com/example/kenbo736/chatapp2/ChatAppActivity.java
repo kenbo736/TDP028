@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.ScrollingMovementMethod;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,6 +39,7 @@ import java.util.Map;
 public class ChatAppActivity extends AppCompatActivity {
 
     private EditText messageBox;
+    private EditText timeStamp;
     private ListView chatWindow;
     private Button sendButton;
     private Button signoutButton;
@@ -60,7 +65,6 @@ public class ChatAppActivity extends AppCompatActivity {
         messageBox = (EditText) findViewById(R.id.messageBox);
         messageBox.setHint(R.string.write_something);
         chatWindow = (ListView) findViewById(R.id.chatWindow);
-        //chatWindow.setMovementMethod(new ScrollingMovementMethod());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,7 +96,7 @@ public class ChatAppActivity extends AppCompatActivity {
             }
         });
 
-        changeUsernameButton = (Button) findViewById(R.id.changeUsernameButton);
+        /*changeUsernameButton = (Button) findViewById(R.id.changeUsernameButton);
         changeUsernameButton.setText(R.string.change_username);
         changeUsernameButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -103,9 +107,9 @@ public class ChatAppActivity extends AppCompatActivity {
 
                 startActivity(new Intent(ChatAppActivity.this, profileActivity.class));
             }
-        });
+        });*/
 
-        sendSpamButton = (Button) findViewById(R.id.sendSpamButton);
+        /*sendSpamButton = (Button) findViewById(R.id.sendSpamButton);
         sendSpamButton.setText(R.string.send_spam);
         sendSpamButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -120,7 +124,7 @@ public class ChatAppActivity extends AppCompatActivity {
                         .build();
                 startActivityForResult(intent, REQUEST_CODE);
             }
-        });
+        });*/
 
         sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setText(R.string.send);
@@ -132,7 +136,6 @@ public class ChatAppActivity extends AppCompatActivity {
                 Map<String, String> map = new HashMap<>();
                 map.put("user", user);
                 map.put("message", message);
-                //map.put("timestamp", message);
 
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.CHARACTER, user);
@@ -149,14 +152,57 @@ public class ChatAppActivity extends AppCompatActivity {
 
             }
         });
-        signoutButton = (Button) findViewById(R.id.signoutButton);
+
+        /*signoutButton = (Button) findViewById(R.id.signoutButton);
         signoutButton.setText(R.string.sign_out);
         signoutButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mAuth.signOut();
                 startActivity(new Intent(ChatAppActivity.this, MainActivity.class));
             }
-        });
+        });*/
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.logout_menu:
+                mAuth.signOut();
+                startActivity(new Intent(ChatAppActivity.this, MainActivity.class));
+
+        }
+        switch(item.getItemId()) {
+            case R.id.invite_menu:
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
+                bundle.putString(FirebaseAnalytics.Param.VALUE, "a lot");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
+
+                Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
+                        .setMessage(getString(R.string.invitation_message))
+                        .setCustomImage(Uri.parse("https://raw.githubusercontent.com/kenbo736/TDP028/master/Images/rn_icon.png"))
+                        .build();
+                startActivityForResult(intent, REQUEST_CODE);
+
+        }
+        switch(item.getItemId()) {
+            case R.id.change_username_menu:
+                Bundle bundle = new Bundle();
+                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
+                bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "username_changed");
+                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
+
+                startActivity(new Intent(ChatAppActivity.this, profileActivity.class));
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
