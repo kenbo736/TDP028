@@ -9,19 +9,34 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class profileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+    private FirebaseDatabase database;
+    private DatabaseReference dataRef;
+
+    private ProgressBar expBar;
+    private TextView levelText;
 
     private EditText usernameBox;
     private Button setUsernameButton;
@@ -31,6 +46,11 @@ public class profileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+
+        database = FirebaseDatabase.getInstance();
+        dataRef = database.getReference("users");
+        expBar = (ProgressBar) findViewById(R.id.expBar);
+        levelText = (TextView) findViewById(R.id.levelText);
         usernameBox = (EditText) findViewById(R.id.usernameBox);
         usernameBox.setHint(R.string.username);
         setUsernameButton = (Button) findViewById(R.id.setUsernameButton);
@@ -47,7 +67,20 @@ public class profileActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
+
+        dataRef.child(mAuth.getCurrentUser().getEmail().replace(".", ",")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                levelText.setText((Integer.parseInt(snapshot.getValue().toString())/100) + "");
+                expBar.setProgress(Integer.parseInt(snapshot.getValue().toString())%100);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
     }
+
 
 
     private void setUsername(){

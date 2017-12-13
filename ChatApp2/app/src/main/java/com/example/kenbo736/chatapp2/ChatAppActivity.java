@@ -27,6 +27,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Timestamp;
@@ -48,6 +50,7 @@ public class ChatAppActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference dataRef;
+    private DatabaseReference userRef;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private static final int REQUEST_CODE=0;
@@ -60,6 +63,7 @@ public class ChatAppActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         dataRef = database.getReference("chatWindow");
+        userRef = database.getReference("users");
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         messageBox = (EditText) findViewById(R.id.messageBox);
@@ -131,7 +135,7 @@ public class ChatAppActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String key = dataRef.push().getKey();
-                String message = messageBox.getText().toString();
+                final String message = messageBox.getText().toString();
                 String user = mAuth.getCurrentUser().getDisplayName();
                 Map<String, String> map = new HashMap<>();
                 map.put("user", user);
@@ -144,6 +148,22 @@ public class ChatAppActivity extends AppCompatActivity {
 
                 dataRef.child(key).setValue(map);
                 messageBox.setText("");
+
+                userRef.child(mAuth.getCurrentUser().getEmail().replace(".", ",")).runTransaction(new Transaction.Handler() {
+                    @Override
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+                        Long value = mutableData.getValue(Long.class);
+                        mutableData.setValue(value + message.length());
+
+                        return Transaction.success(mutableData);
+                    }
+
+                    @Override
+                    public void onComplete(DatabaseError databaseError, boolean b,
+                                           DataSnapshot dataSnapshot) {
+                    }
+                });
+
                 View view = ChatAppActivity.this.getCurrentFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

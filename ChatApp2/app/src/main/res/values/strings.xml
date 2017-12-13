@@ -8,8 +8,8 @@
     <string name="send">Send</string>
     <string name="write_something">Write something</string>
     <string name="username">username</string>
-    <string name="set_username">set username</string>
-    <string name="change_username">change username</string>
+    <string name="set_username">Save</string>
+    <string name="change_username">Profile</string>
     <string name="send_spam">invite</string>
     <string name="invitation_title">Spam message received</string>
     <string name="invitation_message">Someone has invited you to rantNation</string>

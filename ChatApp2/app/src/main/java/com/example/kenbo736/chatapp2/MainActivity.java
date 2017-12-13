@@ -35,6 +35,8 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -42,6 +44,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.io.Console;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -58,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements
     private BroadcastReceiver bReceiver;
     private LocalBroadcastManager bManager;
     private FirebaseAnalytics mFirebaseAnalytics;
+    private FirebaseDatabase database;
+    private DatabaseReference dataRef;
 
     public static final String RECEIVE_PLATS = "com.your.package.RECEIVE_PLATS";
 
@@ -78,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements
         mAuth = FirebaseAuth.getInstance();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mGeofencingClient = LocationServices.getGeofencingClient(this);
+
+        database = FirebaseDatabase.getInstance();
+        dataRef = database.getReference("users");
 
         welcomeMessage = (TextView) findViewById(R.id.welcomeMessage);
         locationBox = (TextView) findViewById(R.id.locationBox);
@@ -186,6 +194,8 @@ public class MainActivity extends AppCompatActivity implements
                                     .setContentTitle("Registration")
                                     .setContentText("You are now registered under the email: " + email);
                     nManager.notify(1, mBuilder.build());
+
+                    dataRef.child(email.replace(".", ",")).setValue(0);
                     startActivity(new Intent(MainActivity.this, profileActivity.class));
                 }
                 else{
