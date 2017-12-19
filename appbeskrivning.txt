@@ -1,0 +1,13 @@
+Description
+-----------
+Poängen med min app är att uppmuntra att chatta med varandra, genom att få
+"experience points" som gör att man stiger i nivåer. Allt är uppbyggt i ett
+chatfönster så alla kommer kunna chatta med varandra i realtid samtidigt. Varje
+gång man skriver något så får man dessa "experience points" och det ska stå vilken
+nivå man är på.
+
+Specifications
+--------------
+* chatta med alla samtidigt
+* få poäng för varje meddelande du skickar
+* Visa vilken "level man är"

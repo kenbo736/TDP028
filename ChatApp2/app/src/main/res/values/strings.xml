@@ -15,4 +15,5 @@
     <string name="invitation_message">Someone has invited you to rantNation</string>
     <string name="you_are_in">You are in</string>
     <string name="you_are_not_in">you are not in</string>
+    <string name="levelText2">Rant Level:</string>
 </resources>

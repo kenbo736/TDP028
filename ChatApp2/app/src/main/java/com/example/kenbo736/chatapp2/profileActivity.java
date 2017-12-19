@@ -37,6 +37,7 @@ public class profileActivity extends AppCompatActivity {
 
     private ProgressBar expBar;
     private TextView levelText;
+    private TextView levelText2;
 
     private EditText usernameBox;
     private Button setUsernameButton;
@@ -51,10 +52,12 @@ public class profileActivity extends AppCompatActivity {
         dataRef = database.getReference("users");
         expBar = (ProgressBar) findViewById(R.id.expBar);
         levelText = (TextView) findViewById(R.id.levelText);
+        levelText2 = (TextView) findViewById(R.id.levelText2);
         usernameBox = (EditText) findViewById(R.id.usernameBox);
         usernameBox.setHint(R.string.username);
         setUsernameButton = (Button) findViewById(R.id.setUsernameButton);
         setUsernameButton.setText(R.string.set_username);
+        levelText2.setText(R.string.levelText2);
         mAuth = FirebaseAuth.getInstance();
 
         setUsernameButton.setOnClickListener(new View.OnClickListener() {

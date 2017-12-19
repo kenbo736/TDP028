@@ -15,4 +15,5 @@
     <string name="invitation_message">Någon har bjudit in dig till rantNation</string>
     <string name="you_are_in">Du är i</string>
     <string name="you_are_not_in">Du är inte i</string>
+    <string name="levelText2">Rant Nivå:</string>
 </resources>
