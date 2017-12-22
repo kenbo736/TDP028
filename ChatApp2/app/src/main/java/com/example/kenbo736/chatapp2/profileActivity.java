@@ -84,8 +84,6 @@ public class profileActivity extends AppCompatActivity {
 
     }
 
-
-
     private void setUsername(){
         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(usernameBox.getText().toString())

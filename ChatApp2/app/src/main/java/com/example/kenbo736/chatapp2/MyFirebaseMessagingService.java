@@ -18,21 +18,16 @@ import static android.content.ContentValues.TAG;
  * Created by kenbo736 on 11/6/17.
  */
 
+// Makes it possible to send notifications to every user
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
-
-        // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
 
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Toast.makeText(MyFirebaseMessagingService.this, "MessagingService", Toast.LENGTH_SHORT).show();
-
-
-
         }
 
         // Check if message contains a notification payload.
@@ -40,9 +35,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, remoteMessage.getNotification().getBody());
             sendNotification(remoteMessage.getNotification().getBody());
         }
-
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
     }
 
     private void sendNotification(String body) {

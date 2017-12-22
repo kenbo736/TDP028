@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
 
         nManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
@@ -184,10 +183,12 @@ public class MainActivity extends AppCompatActivity implements
             return;
         }
 
+        // Authentications
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    // Notifications
                     android.support.v4.app.NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(MainActivity.this)
                                     .setSmallIcon(R.mipmap.rn_launcher)
@@ -195,11 +196,11 @@ public class MainActivity extends AppCompatActivity implements
                                     .setContentText("You are now registered under the email: " + email);
                     nManager.notify(1, mBuilder.build());
 
+                    // sets email.com to email,com because firebase don't accept . as an value
                     dataRef.child(email.replace(".", ",")).setValue(0);
                     startActivity(new Intent(MainActivity.this, profileActivity.class));
                 }
                 else{
-
                     Toast.makeText(MainActivity.this, "registration failed", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -218,12 +219,11 @@ public class MainActivity extends AppCompatActivity implements
             Toast.makeText(MainActivity.this, "password missing", Toast.LENGTH_SHORT).show();
         }
         else {
+
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
                     if (!task.isSuccessful()) {
-
                         Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
                     }
 
@@ -236,8 +236,8 @@ public class MainActivity extends AppCompatActivity implements
     public void onConnected(Bundle connectionHint) {
         Geofence geofence = new Geofence.Builder()
                 .setRequestId("Linköping") // Geofence ID
-                .setCircularRegion( 58.410807, 15.621373, 5000) // defining fence region
-                .setExpirationDuration( 10000 ) // expiring date
+                .setCircularRegion( 58.410807, 15.621373, 5000)
+                .setExpirationDuration( 10000 )
                 // Transition types that it should look for
                 .setTransitionTypes( Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT )
                 .build();

@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,11 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.view.Menu;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.appinvite.AppInviteInvitation;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +27,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,9 +38,6 @@ public class ChatAppActivity extends AppCompatActivity {
     private EditText timeStamp;
     private ListView chatWindow;
     private Button sendButton;
-    private Button signoutButton;
-    private Button changeUsernameButton;
-    private Button sendSpamButton;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference dataRef;
@@ -70,11 +61,10 @@ public class ChatAppActivity extends AppCompatActivity {
         messageBox.setHint(R.string.write_something);
         chatWindow = (ListView) findViewById(R.id.chatWindow);
 
+        // Styr actionbaren
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
-        //toolbar.setNavigationIcon(R.mipmap.rn_launcher);
-
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -99,36 +89,6 @@ public class ChatAppActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-        /*changeUsernameButton = (Button) findViewById(R.id.changeUsernameButton);
-        changeUsernameButton.setText(R.string.change_username);
-        changeUsernameButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
-                bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "username_changed");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_UP, bundle);
-
-                startActivity(new Intent(ChatAppActivity.this, profileActivity.class));
-            }
-        });*/
-
-        /*sendSpamButton = (Button) findViewById(R.id.sendSpamButton);
-        sendSpamButton.setText(R.string.send_spam);
-        sendSpamButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString(FirebaseAnalytics.Param.CHARACTER, mAuth.getCurrentUser().getDisplayName());
-                bundle.putString(FirebaseAnalytics.Param.VALUE, "a lot");
-                mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SHARE, bundle);
-
-                Intent intent = new AppInviteInvitation.IntentBuilder(getString(R.string.invitation_title))
-                        .setMessage(getString(R.string.invitation_message))
-                        .setCustomImage(Uri.parse("https://raw.githubusercontent.com/kenbo736/TDP028/master/Images/rn_icon.png"))
-                        .build();
-                startActivityForResult(intent, REQUEST_CODE);
-            }
-        });*/
 
         sendButton = (Button) findViewById(R.id.sendButton);
         sendButton.setText(R.string.send);
@@ -172,15 +132,6 @@ public class ChatAppActivity extends AppCompatActivity {
 
             }
         });
-
-        /*signoutButton = (Button) findViewById(R.id.signoutButton);
-        signoutButton.setText(R.string.sign_out);
-        signoutButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(ChatAppActivity.this, MainActivity.class));
-            }
-        });*/
     }
 
     @Override
@@ -236,9 +187,9 @@ public class ChatAppActivity extends AppCompatActivity {
                 for (String id : ids) {
 
                 }
-            } else {
+            }
+            else {
                 // Sending failed or it was canceled, show failure message to the user
-                // ...
             }
         }
     }
