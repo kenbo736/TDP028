@@ -1,0 +1,17 @@
+Konkurrensanalys av applikationen "kik"
+
+kenbo736, Kenneth Börjesson
+
+Egenkrav:
+Det ska vara enkelt.
+Användaren ska kunna chatta i realtid med andra människor samtidigt
+Användaren ska kunna skicka inbjudningsmeddelanden.
+Användaren ska kunna lägga till ett användarnamn, vilket skulle kunna vara "anonymt" om man vill.
+Användaren ska kunna gå upp i nivå.
+Det ska finnas välkommstmeddelande på framsidan som ändras varje dag.
+
+Måstekrav:
+Användaren måste kunna skapa ett konto.
+Avnädaren måste kunna skicka meddelanden till andra människor.
+Användaren måste kunna sätta ett användarnamn.
+
